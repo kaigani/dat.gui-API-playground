@@ -5,16 +5,13 @@
 		<title>API Test - DAT.GUI</title>
 
 		<!-- Libraries -->
-		<script src="lib/dat.gui.min.js"></script> 
-
-		<!-- Core -->
-		<script src="src/Stage.js"></script>
+		<script src="../lib/dat.gui.min.js"></script> 
 
 		<script>
 
 			// EXAMPLE API
 			var API = {};
-			API.meanMedianRange = function(x,y,z){
+			API.MeanMedianRange = function(x,y,z){
 
 				var arr = [x,y,z].sort(function(a,b){return a - b});
 
@@ -26,45 +23,32 @@
 				return o;
 			};
 
-			API.sum = function(x,y,z){
-
-				return x+y+z;
-			};
-
-
 			// MAIN
 			window.onload = function () {
 
-				var stage = new Stage(document.body);
-
-				// First API module
+				var gui = new dat.GUI();
 				var params = { x:1.0, y:1.0, z:1.0 };
 				var result = { mean:1.0, median:1.0, range:1.0 }; 
 
 				var update = function(){
 
-					var temp = API.meanMedianRange(params.x,params.y,params.z);
+					var temp = API.MeanMedianRange(params.x,params.y,params.z);
 					result.mean = temp.mean;
 					result.median = temp.median;
 					result.range = temp.range;
 				};
 
-				var description = "API.meanMedianRange(x, y, z) – Returns o.mean, o.median, o.range";
+				var f1 = gui.addFolder('Parameters');
+				f1.add(params,'x').onChange(update);
+				f1.add(params,'y').onChange(update);
+				f1.add(params,'z').onChange(update);
+				f1.open();
 
-				stage.addModule(update,params,result,description);
-
-				// Second API module
-				var params = { x:1.0, y:1.0, z:1.0 };
-				var result = { sum:3.0 }; 
-
-				var update = function(){
-
-					result.sum = API.sum(params.x,params.y,params.z);
-				};
-
-				var description = "API.sum(x, y, z) – Returns sum";
-
-				stage.addModule(update,params,result,description);
+				var f2 = gui.addFolder('Result');
+				f2.add(result,'mean').listen();
+				f2.add(result,'median').listen();
+				f2.add(result,'range').listen();
+				f2.open();
 
 			}
 		</script>
@@ -95,15 +79,6 @@
 				font-family: sans-serif;
 			}
 
-			.module {
-				background-color: #444;
-				margin-bottom: 32px;
-			}
-
-			.description {
-				margin: 12px;
-			}
-
 			/* dat.gui override */
 			ul {
 				height: auto !important;
@@ -125,6 +100,16 @@
 	</head>
 	<body>
 		<h2>Example API</h2>
+		<pre>
+API.MeanMedianRange(x, y, z) 
+
+	Returns:
+
+		o.mean 
+		o.median 
+		o.range
+
+		</pre>
 	</body>
 </html>
 		
