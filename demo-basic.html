@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>API Test - DAT.GUI</title>
+
+		<!-- Libraries -->
+		<script src="lib/dat.gui.min.js"></script> 
+
+		<script>
+
+			// EXAMPLE API
+			var API = {};
+			API.MeanMedianRange = function(x,y,z){
+
+				var arr = [x,y,z].sort(function(a,b){return a - b});
+
+				var o = {};
+				o.mean = (x+y+z)/3.0;
+				o.median = arr[1];
+				o.range = arr[2]-arr[0];
+
+				return o;
+			};
+
+			// MAIN
+			window.onload = function () {
+
+				var gui = new dat.GUI();
+				var params = { x:1.0, y:1.0, z:1.0 };
+				var result = { mean:1.0, median:1.0, range:1.0 }; 
+
+				var update = function(){
+
+					var temp = API.MeanMedianRange(params.x,params.y,params.z);
+					result.mean = temp.mean;
+					result.median = temp.median;
+					result.range = temp.range;
+				};
+
+				var f1 = gui.addFolder('Parameters');
+				f1.add(params,'x').onChange(update);
+				f1.add(params,'y').onChange(update);
+				f1.add(params,'z').onChange(update);
+				f1.open();
+
+				var f2 = gui.addFolder('Result');
+				f2.add(result,'mean').listen();
+				f2.add(result,'median').listen();
+				f2.add(result,'range').listen();
+				f2.open();
+
+			}
+		</script>
+
+		<!-- LOAD THE EXAMPLES -->
+		<!--
+		<script src="js/01_save-context.js"></script>
+		<script src="js/02_rotate.js"></script>
+		<script src="js/03_stroke.js"></script>
+		<script src="js/04_stroke_pattern.js"></script>
+		-->
+
+		
+		<!-- CSS Styles -->
+
+		<style type="text/css" media="screen">
+			html {
+
+			}
+			
+			body {
+				margin:  0px;
+				padding: 20px;
+				height: 100%;
+				background-color: #333;
+				color: #eee;
+
+				font-family: sans-serif;
+			}
+
+			/* dat.gui override */
+			ul {
+				height: auto !important;
+			}
+			/* Clearfix */
+
+			.clearfix:before,
+			.clearfix:after {
+			  content: " ";
+			  /* 1 */
+			  display: table;
+			  /* 2 */
+			}
+			.clearfix:after {
+			  clear: both;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<h2>Example API</h2>
+		<pre>
+API.MeanMedianRange(x, y, z) 
+
+	Returns:
+
+		o.mean 
+		o.median 
+		o.range
+
+		</pre>
+	</body>
+</html>
+		
