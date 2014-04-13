@@ -6,7 +6,7 @@
 		this.count = 0;
 	};
 
-	Stage.prototype.addModule = function(updateFn,params,result,description){
+	Stage.prototype.addModule = function(description,params,result,callback){
 
 		this.count++;
 
@@ -28,7 +28,7 @@
 		for(var item in params){
 
 			if( params.hasOwnProperty(item) ){
-				f.add(params,item).onChange(updateFn);
+				f.add(params,item).onChange(callback);
 			}
 		}
 		f.open();
@@ -37,6 +37,7 @@
 		for(item in result){
 
 			if( result.hasOwnProperty(item) ){
+
 				f.add(result,item).listen();
 			}
 		}

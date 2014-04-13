@@ -27,8 +27,8 @@
 			window.onload = function () {
 
 				var gui = new dat.GUI();
-				var params = { x:1.0, y:1.0, z:1.0 };
-				var result = { mean:1.0, median:1.0, range:1.0 }; 
+				var params = { x:20.0, y:20.0, z:20.0 };
+				var result = { mean:0.0, median:0.0, range:0.0 }; 
 
 				var update = function(){
 
@@ -38,10 +38,12 @@
 					result.range = temp.range;
 				};
 
+				update(); // init the result
+
 				var f1 = gui.addFolder('Parameters');
-				f1.add(params,'x').onChange(update);
-				f1.add(params,'y').onChange(update);
-				f1.add(params,'z').onChange(update);
+				f1.add(params,'x',0,100).onChange(update);
+				f1.add(params,'y',0,100).onChange(update);
+				f1.add(params,'z',0,100).onChange(update);
 				f1.open();
 
 				var f2 = gui.addFolder('Result');
@@ -78,6 +80,17 @@
 
 				font-family: sans-serif;
 			}
+			
+			h2 { font-weight: lighter; }
+
+			.module {
+				background-color: #444;
+				margin-bottom: 32px;
+			}
+
+			.description {
+				margin: 12px;
+			}
 
 			/* dat.gui override */
 			ul {
@@ -99,17 +112,12 @@
 		
 	</head>
 	<body>
-		<h2>Example API</h2>
-		<pre>
-API.MeanMedianRange(x, y, z) 
-
-	Returns:
-
-		o.mean 
-		o.median 
-		o.range
-
-		</pre>
+		<h2>Basic example - API Playground</h2>
+		<div class="module clearfix">
+			<pre class="description">
+API.meanMedianRange(x, y, z) – Returns o.mean, o.median, o.range
+			</pre>
+		</div>
 	</body>
 </html>
 		
